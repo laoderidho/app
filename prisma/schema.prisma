@@ -41,6 +41,7 @@ model Specialist {
 model ProfileDoctor {
   id Int @id @default(autoincrement())
   phone String @db.VarChar(20)
+  name String @db.VarChar(30)
   isActive Boolean @default(true)
   description String
   SpecialistId Int
@@ -48,3 +49,5 @@ model ProfileDoctor {
 
   specialist Specialist @relation(fields: [SpecialistId], references: [id])
 }
+
+model Profile
