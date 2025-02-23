@@ -18,16 +18,51 @@ model Role {
   title String @db.VarChar(256)
   inputTime DateTime @default(now())
   user User[]
+  lg_user lg_user[]
 }
 
 model User {
   id Int @id @default(autoincrement())
+  username String
   email String @unique @db.VarChar(256)
   password String 
   roleId Int 
+  inputUn String
   inputTime DateTime @default(now())
 
   role Role @relation(fields: [roleId], references: [id])
+  
+  profile Profile[]
+  doctorProfile doctorProfile[]
+}
+
+model lg_user {
+  id Int @id @default(autoincrement())
+
+  username String
+  email String
+  password String
+  roleId Int
+  action String
+  inputUn String
+
+  created_at DateTime @default(now())
+  role Role @relation(fields: [roleId], references: [id])
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+
+  name String
+  age String
+  address String
+  marriedStatus Boolean
+  handphone_number String
+  sex String
+  userId Int 
+
+  created_at DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Specialist {
@@ -35,19 +70,23 @@ model Specialist {
   name String @db.VarChar(256)
   inputTime DateTime @default(now())
 
-  profileDoctor ProfileDoctor[]
+  doctorProfile doctorProfile[]
 }
 
-model ProfileDoctor {
+model doctorProfile {
   id Int @id @default(autoincrement())
-  phone String @db.VarChar(20)
-  name String @db.VarChar(30)
-  isActive Boolean @default(true)
-  description String
-  SpecialistId Int
-  inputTime DateTime @default(now())
 
+  name String
+  age String
+  address String
+  hp String
+  sex String
+  userId Int
+  location String
+  SpecialistId Int
+  isActive Boolean
+  billPerHours Int
+
+  user User @relation(fields: [userId], references: [id])
   specialist Specialist @relation(fields: [SpecialistId], references: [id])
 }
-
-model Profile

@@ -1,11 +1,6 @@
 import { Elysia } from "elysia";
-import { AppController } from "../Controller/app.controller";
-import { authRouter } from "./auth.router";
-
-const appController = new AppController()
+import { authController } from "../Controller/Auth/auth.controller";
 
 export const router = new Elysia()
 
-router.get("/", () => appController.getHello())
-
-router.use(authRouter)
+router.use(authController)
