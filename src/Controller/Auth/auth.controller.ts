@@ -6,8 +6,10 @@ import { loginDtoSchema } from "../../dto/auth/Login.dto";
 
 export const authController = new Elysia({prefix: "/auth"})
 
+// service instance
 const authServices = new AuthService()
 
+// token configuration
 authController.use(jwtAccessToken).use(jwtRefreshToken)
 
 authController.post("/register", async ({ body, set }) =>{
@@ -21,11 +23,13 @@ authController.post("/register", async ({ body, set }) =>{
     }
 
     try {
+        // call services Method
         const result = await authServices.register(parseBody.data)
         set.status = 201
         return {
             message: result
         }
+
     } catch (error: any) {
         set.status = 400
         return {
@@ -54,7 +58,7 @@ authController.post("/login", async ({ cookie: { token } ,jwtAccessToken, jwtRef
         set.status = 200
         return {
             message: 'Berhasil Login',
-            accessToken
+            token: accessToken
         }
     } catch (error: any) {
         set.status = 401

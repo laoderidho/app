@@ -7,9 +7,11 @@ export class AuthService{
     private prisma: PrismaClient;
 
     constructor(){
+        // prisma instance
         this.prisma = new PrismaClient();
     }
 
+    // registerDto is data transfer in folder dto
     async register(data: RegisterDto){
         const validateData = registerDtoSchema.safeParse(data);
 
@@ -30,6 +32,7 @@ export class AuthService{
 
             const securePass = await Bun.password.hash(data.password);
 
+            // save data to database 
             await this.prisma.user.create({
                 data: {
                     email: data.email,
